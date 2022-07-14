@@ -1,7 +1,9 @@
 /* Author1: Mahmoud Khairy, abdallm@purdue.com - 2019 */
 /* Author2: Jason Shen, shen203@purdue.edu - 2019 */
+/* Editor1: Weili An, an107@purdue.edu - 2022: add support for uniform registers */
 
 #include <stdint.h>
+#include "nvbit.h"
 
 static __managed__ uint64_t total_dynamic_instr_counter = 0;
 static __managed__ uint64_t reported_dynamic_instr_counter = 0;
@@ -11,6 +13,7 @@ static __managed__ bool stop_report = false;
  * on the channel from the GPU to the CPU */
 #define MAX_SRC 5
 
+// TODO Weili: Add 
 typedef struct {
   int cta_id_x;
   int cta_id_y;
@@ -23,7 +26,9 @@ typedef struct {
   uint32_t vpc;
   bool is_mem;
   int32_t GPRDst;
+  enum InstrType::OperandType GPRDstType;
   int32_t GPRSrcs[MAX_SRC];
+  enum InstrType::OperandType GPRSrcsType[MAX_SRC];
   int32_t numSrcs;
   int32_t width;
   uint32_t active_mask;

@@ -7,3 +7,4 @@ sim_run_*
 
 # Debugging
 .gdbinit
+*.env

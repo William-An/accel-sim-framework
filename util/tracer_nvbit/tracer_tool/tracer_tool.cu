@@ -1,5 +1,6 @@
 /* Author1: Mahmoud Khairy, abdallm@purdue.com - 2019 */
 /* Author2: Jason Shen, shen203@purdue.edu - 2019 */
+/* Editor1: Weili An, an107@purdue.edu - 2022: add support for uniform registers */
 
 #include <algorithm>
 #include <assert.h>
@@ -153,21 +154,31 @@ void instrument_function_if_needed(CUcontext ctx, CUfunction func) {
       nvbit_add_call_arg_const_val32(instr, opcode_id);
       nvbit_add_call_arg_const_val32(instr, (int)instr->getOffset());
 
+      // TODO: Weili: Add suport for uniform regs
+      // TODO: Weili: Might need a separate field in the inst?
       /* check all operands. For now, we ignore constant, TEX, predicates and
        * unified registers. We only report vector regisers */
       int src_oprd[MAX_SRC];
+      enum InstrType::OperandType src_oprd_type[MAX_SRC];
       int srcNum = 0;
       int dst_oprd = -1;
+      enum InstrType::OperandType dst_oprd_type = InstrType::OperandType::REG;
       int mem_oper_idx = -1;
 
       /* find dst reg and handle the special case if the oprd[0] is mem (e.g.
        * store and RED)*/
       if (instr->getNumOperands() > 0 &&
-          instr->getOperand(0)->type == InstrType::OperandType::REG)
+          instr->getOperand(0)->type == InstrType::OperandType::REG) {
         dst_oprd = instr->getOperand(0)->u.reg.num;
-      else if (instr->getNumOperands() > 0 &&
+        dst_oprd_type = InstrType::OperandType::REG;
+      } else if (instr->getNumOperands() > 0 && 
+                instr->getOperand(0)->type == InstrType::OperandType::UREG) {
+        dst_oprd = instr->getOperand(0)->u.reg.num;
+        dst_oprd_type = InstrType::OperandType::UREG;
+      } else if (instr->getNumOperands() > 0 &&
                instr->getOperand(0)->type == InstrType::OperandType::MREF) {
         src_oprd[0] = instr->getOperand(0)->u.mref.ra_num;
+        src_oprd_type[0] = InstrType::OperandType::MREF;
         mem_oper_idx = 0;
         srcNum++;
       }
@@ -180,14 +191,17 @@ void instrument_function_if_needed(CUcontext ctx, CUfunction func) {
             // mem is found
             assert(srcNum < MAX_SRC);
             src_oprd[srcNum] = instr->getOperand(i)->u.mref.ra_num;
+            src_oprd_type[srcNum] = op->type;
             srcNum++;
             // TO DO: handle LDGSTS with two mem refs
             assert(mem_oper_idx == -1); // ensure one memory operand per inst
             mem_oper_idx++;
-          } else if (op->type == InstrType::OperandType::REG) {
-            // reg is found
+          } else if (op->type == InstrType::OperandType::REG
+                      || op->type == InstrType::OperandType::UREG) {
+            // reg or uniform reg is found
             assert(srcNum < MAX_SRC);
             src_oprd[srcNum] = instr->getOperand(i)->u.reg.num;
+            src_oprd_type[srcNum] = op->type;
             srcNum++;
           }
           // skip anything else (constant and predicates)
@@ -205,13 +219,17 @@ void instrument_function_if_needed(CUcontext ctx, CUfunction func) {
         nvbit_add_call_arg_const_val32(instr, -1);
       }
 
-      /* reg info */
+      /* reg info, reg num and reg type */
       nvbit_add_call_arg_const_val32(instr, dst_oprd);
+      nvbit_add_call_arg_const_val32(instr, (int32_t) dst_oprd_type);
+
       for (int i = 0; i < srcNum; i++) {
         nvbit_add_call_arg_const_val32(instr, src_oprd[i]);
+        nvbit_add_call_arg_const_val32(instr, (int32_t) src_oprd_type[i]);
       }
       for (int i = srcNum; i < MAX_SRC; i++) {
         nvbit_add_call_arg_const_val32(instr, -1);
+        nvbit_add_call_arg_const_val32(instr, (int32_t) InstrType::OperandType::REG);
       }
       nvbit_add_call_arg_const_val32(instr, srcNum);
 
@@ -559,7 +577,11 @@ void *recv_thread_fun(void *) {
         fprintf(resultsFile, "%08x ", ma->active_mask & ma->predicate_mask);
         if (ma->GPRDst >= 0) {
           fprintf(resultsFile, "1 ");
-          fprintf(resultsFile, "R%d ", ma->GPRDst);
+          if (ma->GPRDstType == InstrType::OperandType::REG) {
+            fprintf(resultsFile, "R%d ", ma->GPRDst);
+          } else if (ma->GPRDstType == InstrType::OperandType::UREG) {
+            fprintf(resultsFile, "U%d ", ma->GPRDst);
+          }
         } else
           fprintf(resultsFile, "0 ");
 
@@ -571,9 +593,15 @@ void *recv_thread_fun(void *) {
             src_count++;
         fprintf(resultsFile, "%d ", src_count);
 
-        for (int s = 0; s < MAX_SRC; s++) // GPR srcs.
-          if (ma->GPRSrcs[s] >= 0)
-            fprintf(resultsFile, "R%d ", ma->GPRSrcs[s]);
+        for (int s = 0; s < MAX_SRC; s++) { // GPR srcs.
+          if (ma->GPRSrcs[s] >= 0) {
+            if (ma->GPRSrcsType[s] == InstrType::OperandType::REG) {
+              fprintf(resultsFile, "R%d ", ma->GPRSrcs[s]);
+            } else if (ma->GPRSrcsType[s] == InstrType::OperandType::UREG) {
+              fprintf(resultsFile, "U%d ", ma->GPRSrcs[s]);
+            }
+          }
+        }
 
         // print addresses
         std::bitset<32> mask(ma->active_mask & ma->predicate_mask);

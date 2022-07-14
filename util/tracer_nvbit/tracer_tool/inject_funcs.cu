@@ -19,8 +19,14 @@
  */
 extern "C" __device__ __noinline__ void instrument_inst(
     int pred, int opcode_id, int32_t vpc, bool is_mem, uint64_t addr,
-    int32_t width, int32_t desReg, int32_t srcReg1, int32_t srcReg2,
-    int32_t srcReg3, int32_t srcReg4, int32_t srcReg5, int32_t srcNum,
+    int32_t width, 
+    int32_t desReg, int32_t desRegType, 
+    int32_t srcReg1, int32_t srcReg1Type, 
+    int32_t srcReg2, int32_t srcReg2Type, 
+    int32_t srcReg3, int32_t srcReg3Type, 
+    int32_t srcReg4, int32_t srcReg4Type, 
+    int32_t srcReg5, int32_t srcReg5Type, 
+    int32_t srcNum,
     uint64_t pchannel_dev, uint64_t ptotal_dynamic_instr_counter,
     uint64_t preported_dynamic_instr_counter, uint64_t pstop_report) {
 
@@ -61,11 +67,17 @@ extern "C" __device__ __noinline__ void instrument_inst(
   ma.opcode_id = opcode_id;
   ma.vpc = vpc;
   ma.GPRDst = desReg;
+  ma.GPRDstType = (enum InstrType::OperandType) desRegType;
   ma.GPRSrcs[0] = srcReg1;
   ma.GPRSrcs[1] = srcReg2;
   ma.GPRSrcs[2] = srcReg3;
   ma.GPRSrcs[3] = srcReg4;
   ma.GPRSrcs[4] = srcReg5;
+  ma.GPRSrcsType[0] = (enum InstrType::OperandType) srcReg1Type;
+  ma.GPRSrcsType[1] = (enum InstrType::OperandType) srcReg2Type;
+  ma.GPRSrcsType[2] = (enum InstrType::OperandType) srcReg3Type;
+  ma.GPRSrcsType[3] = (enum InstrType::OperandType) srcReg4Type;
+  ma.GPRSrcsType[4] = (enum InstrType::OperandType) srcReg5Type;
   ma.numSrcs = srcNum;
   ma.active_mask = active_mask;
   ma.predicate_mask = predicate_mask;
