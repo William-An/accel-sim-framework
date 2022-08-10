@@ -22,94 +22,94 @@ static const std::unordered_map<std::string, OpcodeChar> GCN3_OpcodeMap = {
     // TODO also drop the DWORD part and UBYTE0 UBYTE, SBYTE, SHORT, BYTE, USHORT, SSHORT
     // TODO For V_CMP, return just two first words
     // AMD SOP2 instructions
-    {"S_ABSDIFF_I32", OpcodeChar(OP_VABSDIFF, INTP_OP)},
-    {"S_ADD", OpcodeChar(OP_IADD, INTP_OP)},
-    {"S_ADDC", OpcodeChar(OP_IADD, INTP_OP)},
-    {"S_AND", OpcodeChar(OP_IADD, INTP_OP)},    // TODO need to find equivalent for this
+    {"S_ABSDIFF_I32", OpcodeChar(OP_VABSDIFF, UNIFORM_UNIT_OP)},
+    {"S_ADD", OpcodeChar(OP_IADD, UNIFORM_UNIT_OP)},
+    {"S_ADDC", OpcodeChar(OP_IADD, UNIFORM_UNIT_OP)},
+    {"S_AND", OpcodeChar(OP_IADD, UNIFORM_UNIT_OP)},
     {"S_ANDN2", OpcodeChar(OP_IADD, INTP_OP)},
     {"S_ASHR", OpcodeChar(OP_SHR, INTP_OP)},
     {"S_BFE", OpcodeChar(OP_IADD, INTP_OP)},    // TODO
     {"S_BFM", OpcodeChar(OP_BMSK, INTP_OP)},    // Bitfield mask
     // Conditional branch using branch stack. Arg0 = compare mask (VCC or any SGPR), Arg1 =
     // 64-bit byte address of target instruction.
-    {"S_CBRANCH_G_FORK", OpcodeChar(OP_BRA, SPECIALIZED_UNIT_1_OP)}, // TODO
-    {"S_CSELECT", OpcodeChar(OP_SEL, ALU_OP)},    // TODO
-    {"S_LSHL", OpcodeChar(OP_SHL, INTP_OP)},
-    {"S_LSHR", OpcodeChar(OP_SHR, INTP_OP)},
-    {"S_MAX", OpcodeChar(OP_SEL, INTP_OP)}, // TODO
-    {"S_MIN", OpcodeChar(OP_SHR, INTP_OP)},
-    {"S_MUL", OpcodeChar(OP_IMUL, INTP_OP)},
-    {"S_NAND", OpcodeChar(OP_IADD, INTP_OP)},   // TODO
-    {"S_NOR", OpcodeChar(OP_IADD, INTP_OP)},   // TODO
-    {"S_OR", OpcodeChar(OP_IADD, INTP_OP)}, // TODO
-    {"S_ORN2", OpcodeChar(OP_IADD, INTP_OP)},
-    {"S_SUB", OpcodeChar(OP_ISUB, INTP_OP)},
-    {"S_SUBB", OpcodeChar(OP_ISUB, INTP_OP)},
-    {"S_XNOR", OpcodeChar(OP_IADD, INTP_OP)},
-    {"S_XOR", OpcodeChar(OP_IADD, INTP_OP)},
+    {"S_CBRANCH_G_FORK", OpcodeChar(OP_BRA, SPECIALIZED_UNIT_1_OP)},
+    {"S_CSELECT", OpcodeChar(OP_SEL, UNIFORM_UNIT_OP)},
+    {"S_LSHL", OpcodeChar(OP_SHL, UNIFORM_UNIT_OP)},
+    {"S_LSHR", OpcodeChar(OP_SHR, UNIFORM_UNIT_OP)},
+    {"S_MAX", OpcodeChar(OP_SEL, UNIFORM_UNIT_OP)}, // TODO
+    {"S_MIN", OpcodeChar(OP_SHR, UNIFORM_UNIT_OP)},
+    {"S_MUL", OpcodeChar(OP_IMUL, UNIFORM_UNIT_OP)},
+    {"S_NAND", OpcodeChar(OP_IADD, UNIFORM_UNIT_OP)},   // TODO
+    {"S_NOR", OpcodeChar(OP_IADD, UNIFORM_UNIT_OP)},   // TODO
+    {"S_OR", OpcodeChar(OP_IADD, UNIFORM_UNIT_OP)}, // TODO
+    {"S_ORN2", OpcodeChar(OP_IADD, UNIFORM_UNIT_OP)},
+    {"S_SUB", OpcodeChar(OP_ISUB, UNIFORM_UNIT_OP)},
+    {"S_SUBB", OpcodeChar(OP_ISUB, UNIFORM_UNIT_OP)},
+    {"S_XNOR", OpcodeChar(OP_IADD, UNIFORM_UNIT_OP)},
+    {"S_XOR", OpcodeChar(OP_IADD, UNIFORM_UNIT_OP)},
 
     // AMD GCN3 SOPK instructions
-    {"S_ADDK", OpcodeChar(OP_IADD, INTP_OP)},
+    {"S_ADDK", OpcodeChar(OP_IADD, UNIFORM_UNIT_OP)},
     {"S_CBRANCH_I_FORK", OpcodeChar(OP_BRA, SPECIALIZED_UNIT_1_OP)},    // TODO
     {"S_CMOVK", OpcodeChar(OP_BMOV, SPECIALIZED_UNIT_1_OP)},  // TODO
-    {"S_CMPK_EQ", OpcodeChar(OP_ICMP, INTP_OP)},  // TODO
-    {"S_CMPK_GE", OpcodeChar(OP_ICMP, INTP_OP)},  // TODO
-    {"S_CMPK_GT", OpcodeChar(OP_ICMP, INTP_OP)},  // TODO
-    {"S_CMPK_LE", OpcodeChar(OP_ICMP, INTP_OP)},  // TODO
-    {"S_CMPK_LG", OpcodeChar(OP_ICMP, INTP_OP)},  // TODO
-    {"S_CMPK_LT", OpcodeChar(OP_ICMP, INTP_OP)},  // TODO
-    {"S_GETREG", OpcodeChar(OP_MOV, ALU_OP)},  // TODO
-    {"S_MOVK", OpcodeChar(OP_MOV, ALU_OP)},
-    {"S_MULK", OpcodeChar(OP_IMUL, INTP_OP)},
-    {"S_SETREG", OpcodeChar(OP_MOV, ALU_OP)},
-    {"S_SETREG_IMM32", OpcodeChar(OP_MOV, ALU_OP)},
+    {"S_CMPK_EQ", OpcodeChar(OP_ICMP, UNIFORM_UNIT_OP)},  // TODO
+    {"S_CMPK_GE", OpcodeChar(OP_ICMP, UNIFORM_UNIT_OP)},  // TODO
+    {"S_CMPK_GT", OpcodeChar(OP_ICMP, UNIFORM_UNIT_OP)},  // TODO
+    {"S_CMPK_LE", OpcodeChar(OP_ICMP, UNIFORM_UNIT_OP)},  // TODO
+    {"S_CMPK_LG", OpcodeChar(OP_ICMP, UNIFORM_UNIT_OP)},  // TODO
+    {"S_CMPK_LT", OpcodeChar(OP_ICMP, UNIFORM_UNIT_OP)},  // TODO
+    {"S_GETREG", OpcodeChar(OP_MOV, UNIFORM_UNIT_OP)},  // TODO
+    {"S_MOVK", OpcodeChar(OP_MOV, UNIFORM_UNIT_OP)},
+    {"S_MULK", OpcodeChar(OP_IMUL, UNIFORM_UNIT_OP)},
+    {"S_SETREG", OpcodeChar(OP_MOV, UNIFORM_UNIT_OP)},
+    {"S_SETREG_IMM32", OpcodeChar(OP_MOV, UNIFORM_UNIT_OP)},
 
     // AMD GCN3 SOP1 instructions
-    {"S_ABS", OpcodeChar(OP_IABS, INTP_OP)},
-    {"S_AND_SAVEEXEC", OpcodeChar(OP_IADD, INTP_OP)},  // TODO
-    {"S_ANDN2_SAVEEXEC", OpcodeChar(OP_IADD, INTP_OP)},  // TODO
-    {"S_BCNT0_I32", OpcodeChar(OP_IADD, INTP_OP)},  // TODO
-    {"S_BCNT1_I32", OpcodeChar(OP_IADD, INTP_OP)},  // TODO
-    {"S_BITSET0", OpcodeChar(OP_IADD, INTP_OP)},  // TODO
-    {"S_BITSET1", OpcodeChar(OP_IADD, INTP_OP)},  // TODO
-    {"S_BREV", OpcodeChar(OP_BREV, INTP_OP)},
+    {"S_ABS", OpcodeChar(OP_IABS, UNIFORM_UNIT_OP)},
+    {"S_AND_SAVEEXEC", OpcodeChar(OP_IADD, UNIFORM_UNIT_OP)},  // TODO
+    {"S_ANDN2_SAVEEXEC", OpcodeChar(OP_IADD, UNIFORM_UNIT_OP)},  // TODO
+    {"S_BCNT0_I32", OpcodeChar(OP_IADD, INUNIFORM_UNIT_OPTP_OP)},  // TODO
+    {"S_BCNT1_I32", OpcodeChar(OP_IADD, UNIFORM_UNIT_OP)},  // TODO
+    {"S_BITSET0", OpcodeChar(OP_IADD, UNIFORM_UNIT_OP)},  // TODO
+    {"S_BITSET1", OpcodeChar(OP_IADD, UNIFORM_UNIT_OP)},  // TODO
+    {"S_BREV", OpcodeChar(OP_BREV, UNIFORM_UNIT_OP)},
     {"S_CBRANCH_JOIN", OpcodeChar(OP_BSYNC, SPECIALIZED_UNIT_1_OP)},  // TODO
     {"S_CMOV", OpcodeChar(OP_BMOV, SPECIALIZED_UNIT_1_OP)},
-    {"S_FF0_I32", OpcodeChar(OP_IADD, INTP_OP)},  // TODO
-    {"S_FF1_I32", OpcodeChar(OP_IADD, INTP_OP)},  // TODO
-    {"S_FLBIT", OpcodeChar(OP_IADD, INTP_OP)},  // TODO
-    {"S_FLBIT_I32", OpcodeChar(OP_IADD, INTP_OP)},  // TODO
+    {"S_FF0_I32", OpcodeChar(OP_IADD, UNIFORM_UNIT_OP)},  // TODO
+    {"S_FF1_I32", OpcodeChar(OP_IADD, UNIFORM_UNIT_OP)},  // TODO
+    {"S_FLBIT", OpcodeChar(OP_IADD, UNIFORM_UNIT_OP)},  // TODO
+    {"S_FLBIT_I32", OpcodeChar(OP_IADD, UNIFORM_UNIT_OP)},  // TODO
     {"S_GETPC", OpcodeChar(OP_PCNT, RET_OPS)},  // TODO
-    {"S_MOV", OpcodeChar(OP_MOV, ALU_OP)},
-    {"S_MOVRELD", OpcodeChar(OP_MOV, ALU_OP)},
-    {"S_MOVRELS", OpcodeChar(OP_MOV, ALU_OP)},
-    {"S_NAND_SAVEEXEC", OpcodeChar(OP_IADD, INTP_OP)},  // TODO
-    {"S_NOR_SAVEEXEC", OpcodeChar(OP_IADD, INTP_OP)},  // TODO
-    {"S_OR_SAVEEXEC", OpcodeChar(OP_IADD, INTP_OP)},  // TODO
-    {"S_ORN2_SAVEEXEC", OpcodeChar(OP_IADD, INTP_OP)},  // TODO
-    {"S_XNOR_SAVEEXEC", OpcodeChar(OP_IADD, INTP_OP)},  // TODO
-    {"S_XOR_SAVEEXEC", OpcodeChar(OP_IADD, INTP_OP)},  // TODO
-    {"S_NOT", OpcodeChar(OP_IADD, INTP_OP)},  // TODO
-    {"S_QUADMASK", OpcodeChar(OP_IADD, INTP_OP)},  // TODO
+    {"S_MOV", OpcodeChar(OP_MOV, UNIFORM_UNIT_OP)},
+    {"S_MOVRELD", OpcodeChar(OP_MOV, UNIFORM_UNIT_OP)},
+    {"S_MOVRELS", OpcodeChar(OP_MOV, UNIFORM_UNIT_OP)},
+    {"S_NAND_SAVEEXEC", OpcodeChar(OP_IADD, UNIFORM_UNIT_OP)},  // TODO
+    {"S_NOR_SAVEEXEC", OpcodeChar(OP_IADD, UNIFORM_UNIT_OP)},  // TODO
+    {"S_OR_SAVEEXEC", OpcodeChar(OP_IADD, UNIFORM_UNIT_OP)},  // TODO
+    {"S_ORN2_SAVEEXEC", OpcodeChar(OP_IADD, UNIFORM_UNIT_OP)},  // TODO
+    {"S_XNOR_SAVEEXEC", OpcodeChar(OP_IADD, UNIFORM_UNIT_OP)},  // TODO
+    {"S_XOR_SAVEEXEC", OpcodeChar(OP_IADD, UNIFORM_UNIT_OP)},  // TODO
+    {"S_NOT", OpcodeChar(OP_IADD, UNIFORM_UNIT_OP)},  // TODO
+    {"S_QUADMASK", OpcodeChar(OP_IADD, UNIFORM_UNIT_OP)},  // TODO
     {"S_RFE", OpcodeChar(OP_RET, SPECIALIZED_UNIT_1_OP)},  // TODO Return from exception, set PC
-    {"S_SET_GPR_IDX_IDX", OpcodeChar(OP_IADD, INTP_OP)},  // TODO
+    {"S_SET_GPR_IDX_IDX", OpcodeChar(OP_IADD, UNIFORM_UNIT_OP)},  // TODO
     {"S_SETPC", OpcodeChar(OP_JMP, SPECIALIZED_UNIT_1_OP)},
-    {"S_SEXT_I32", OpcodeChar(OP_IADD, INTP_OP)},  // TODO
+    {"S_SEXT_I32", OpcodeChar(OP_IADD, UNIFORM_UNIT_OP)},  // TODO
     {"S_SWAPPC", OpcodeChar(OP_JMP, SPECIALIZED_UNIT_1_OP)},
-    {"S_WQM", OpcodeChar(OP_IADD, INTP_OP)},  // TODO
+    {"S_WQM", OpcodeChar(OP_IADD, UNIFORM_UNIT_OP)},  // TODO
     
     // AMD GCN3 SOPC instructions
-    {"S_BITCMP0", OpcodeChar(OP_ICMP, INTP_OP)},
-    {"S_BITCMP1", OpcodeChar(OP_ICMP, INTP_OP)},
-    {"S_CMP_EQ", OpcodeChar(OP_ICMP, INTP_OP)},
-    {"S_CMP_GE", OpcodeChar(OP_ICMP, INTP_OP)},
-    {"S_CMP_GT", OpcodeChar(OP_ICMP, INTP_OP)},
-    {"S_CMP_LE", OpcodeChar(OP_ICMP, INTP_OP)},
-    {"S_CMP_LG", OpcodeChar(OP_ICMP, INTP_OP)},
-    {"S_CMP_LT", OpcodeChar(OP_ICMP, INTP_OP)},
-    {"S_CMP_NE", OpcodeChar(OP_ICMP, INTP_OP)},
-    {"S_SET_GPR_IDX_ON", OpcodeChar(OP_IADD, INTP_OP)},  // TODO
-    {"S_SETVSKIP", OpcodeChar(OP_IADD, INTP_OP)},  // TODO
+    {"S_BITCMP0", OpcodeChar(OP_ICMP, UNIFORM_UNIT_OP)},
+    {"S_BITCMP1", OpcodeChar(OP_ICMP, UNIFORM_UNIT_OP)},
+    {"S_CMP_EQ", OpcodeChar(OP_ICMP, UNIFORM_UNIT_OP)},
+    {"S_CMP_GE", OpcodeChar(OP_ICMP, UNIFORM_UNIT_OP)},
+    {"S_CMP_GT", OpcodeChar(OP_ICMP, UNIFORM_UNIT_OP)},
+    {"S_CMP_LE", OpcodeChar(OP_ICMP, UNIFORM_UNIT_OP)},
+    {"S_CMP_LG", OpcodeChar(OP_ICMP, UNIFORM_UNIT_OP)},
+    {"S_CMP_LT", OpcodeChar(OP_ICMP, UNIFORM_UNIT_OP)},
+    {"S_CMP_NE", OpcodeChar(OP_ICMP, UNIFORM_UNIT_OP)},
+    {"S_SET_GPR_IDX_ON", OpcodeChar(OP_IADD, UNIFORM_UNIT_OP)},  // TODO
+    {"S_SETVSKIP", OpcodeChar(OP_IADD, UNIFORM_UNIT_OP)},  // TODO
 
     // AMD GCN3 SOPP instructions
     {"S_BARRIER", OpcodeChar(OP_BAR, BARRIER_OP)},
@@ -123,38 +123,38 @@ static const std::unordered_map<std::string, OpcodeChar> GCN3_OpcodeMap = {
     {"S_CBRANCH_SCC1", OpcodeChar(OP_BRA, SPECIALIZED_UNIT_1_OP)},
     {"S_CBRANCH_VCCNZ", OpcodeChar(OP_BRA, SPECIALIZED_UNIT_1_OP)},
     {"S_CBRANCH_VCCZ", OpcodeChar(OP_BRA, SPECIALIZED_UNIT_1_OP)},
-    {"S_DECPERFLEVEL", OpcodeChar(OP_IADD, INTP_OP)},  // TODO
+    {"S_DECPERFLEVEL", OpcodeChar(OP_IADD, UNIFORM_UNIT_OP)},  // TODO
     {"S_ENDPGM", OpcodeChar(OP_EXIT, EXIT_OPS)},
     {"S_ENDPGM_SAVED", OpcodeChar(OP_EXIT, EXIT_OPS)},
-    {"S_ICACHE_INV", OpcodeChar(OP_IADD, INTP_OP)},  // TODO
-    {"S_INCPERFLEVEL", OpcodeChar(OP_IADD, INTP_OP)},  // TODO
-    {"S_SENDMSG", OpcodeChar(OP_NOP, ALU_OP)},  // TODO
-    {"S_SENDMSGHALT", OpcodeChar(OP_NOP, ALU_OP)},  // TODO
-    {"S_SET_GPR_IDX_MODE", OpcodeChar(OP_NOP, ALU_OP)},  // TODO
-    {"S_SET_GPR_IDX_OFF", OpcodeChar(OP_NOP, ALU_OP)},  // TODO
-    {"S_SETHALT", OpcodeChar(OP_NOP, ALU_OP)},  // TODO
-    {"S_SETKILL", OpcodeChar(OP_NOP, ALU_OP)},  // TODO
-    {"S_SETPRIO", OpcodeChar(OP_NOP, ALU_OP)},  // TODO
+    {"S_ICACHE_INV", OpcodeChar(OP_IADD, UNIFORM_UNIT_OP)},  // TODO
+    {"S_INCPERFLEVEL", OpcodeChar(OP_IADD, UNIFORM_UNIT_OP)},  // TODO
+    {"S_SENDMSG", OpcodeChar(OP_NOP, UNIFORM_UNIT_OP)},  // TODO
+    {"S_SENDMSGHALT", OpcodeChar(OP_NOP, UNIFORM_UNIT_OP)},  // TODO
+    {"S_SET_GPR_IDX_MODE", OpcodeChar(OP_NOP, UNIFORM_UNIT_OP)},  // TODO
+    {"S_SET_GPR_IDX_OFF", OpcodeChar(OP_NOP, UNIFORM_UNIT_OP)},  // TODO
+    {"S_SETHALT", OpcodeChar(OP_NOP, UNIFORM_UNIT_OP)},  // TODO
+    {"S_SETKILL", OpcodeChar(OP_NOP, UNIFORM_UNIT_OP)},  // TODO
+    {"S_SETPRIO", OpcodeChar(OP_NOP, UNIFORM_UNIT_OP)},  // TODO
     {"S_SLEEP", OpcodeChar(OP_NANOSLEEP, SPECIALIZED_UNIT_1_OP)},
     {"S_TRAP", OpcodeChar(OP_CALL, SPECIALIZED_UNIT_1_OP)},
-    {"S_TTRACEDATA", OpcodeChar(OP_NOP, ALU_OP)},  // TODO
-    {"S_WAITCNT", OpcodeChar(OP_NOP, ALU_OP)},  // TODO
+    {"S_TTRACEDATA", OpcodeChar(OP_NOP, UNIFORM_UNIT_OP)},  // TODO
+    {"S_WAITCNT", OpcodeChar(OP_NOP, UNIFORM_UNIT_OP)},  // TODO
 
     // AMD GCN3 SMEM instructions
-    {"S_ATC_PROBE", OpcodeChar(OP_LDS, LOAD_OP)},  // TODO
-    {"S_ATC_PROBE_BUFFER", OpcodeChar(OP_LDS, LOAD_OP)},  // TODO
-    {"S_BUFFER_LOAD", OpcodeChar(OP_LDC, ALU_OP)},
-    {"S_BUFFER_STORE", OpcodeChar(OP_STL, STORE_OP)},  // TODO
+    {"S_ATC_PROBE", OpcodeChar(OP_LDS, UNIFORM_UNIT_LOAD_OP)},  // TODO
+    {"S_ATC_PROBE_BUFFER", OpcodeChar(OP_LDS, UNIFORM_UNIT_LOAD_OP)},  // TODO
+    {"S_BUFFER_LOAD", OpcodeChar(OP_LDC, UNIFORM_UNIT_LOAD_OP)},
+    {"S_BUFFER_STORE", OpcodeChar(OP_STL, UNIFORM_UNIT_STORE_OP)},  // TODO
     // Invalidate DCACHE insts, TODO
-    {"S_DCACHE_INV", OpcodeChar(OP_NOP, ALU_OP)},  // TODO
-    {"S_DCACHE_INV_VOL", OpcodeChar(OP_NOP, ALU_OP)},  // TODO
-    {"S_DCACHE_WB", OpcodeChar(OP_NOP, ALU_OP)},  // TODO
-    {"S_DCACHE_WB_VOL", OpcodeChar(OP_NOP, ALU_OP)},  // TODO
-    {"S_LOAD", OpcodeChar(OP_LDG, LOAD_OP)}, // TODO
+    {"S_DCACHE_INV", OpcodeChar(OP_NOP, UNIFORM_UNIT_OP)},  // TODO
+    {"S_DCACHE_INV_VOL", OpcodeChar(OP_NOP, UNIFORM_UNIT_OP)},  // TODO
+    {"S_DCACHE_WB", OpcodeChar(OP_NOP, UNIFORM_UNIT_OP)},  // TODO
+    {"S_DCACHE_WB_VOL", OpcodeChar(OP_NOP, UNIFORM_UNIT_OP)},  // TODO
+    {"S_LOAD", OpcodeChar(OP_LDG, UNIFORM_UNIT_LOAD_OP)},
     // TODO Return current 64-bit RTC.
-    {"S_MEMREALTIME", OpcodeChar(OP_NOP, ALU_OP)},
-    {"S_MEMTIME", OpcodeChar(OP_NOP, ALU_OP)},
-    {"S_STORE", OpcodeChar(OP_STG, STORE_OP)}, // TODO
+    {"S_MEMREALTIME", OpcodeChar(OP_NOP, UNIFORM_UNIT_OP)},
+    {"S_MEMTIME", OpcodeChar(OP_NOP, UNIFORM_UNIT_OP)},
+    {"S_STORE", OpcodeChar(OP_STG, UNIFORM_UNIT_STORE_OP)},
 
     // AMD GCN3 VOP2 Insts
     {"V_ADD_F16", OpcodeChar(OP_HADD2, SP_OP)},
