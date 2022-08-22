@@ -68,7 +68,7 @@ static const std::unordered_map<std::string, OpcodeChar> GCN3_OpcodeMap = {
     {"S_ABS", OpcodeChar(OP_IABS, UNIFORM_UNIT_OP)},
     {"S_AND_SAVEEXEC", OpcodeChar(OP_IADD, UNIFORM_UNIT_OP)},  // TODO
     {"S_ANDN2_SAVEEXEC", OpcodeChar(OP_IADD, UNIFORM_UNIT_OP)},  // TODO
-    {"S_BCNT0_I32", OpcodeChar(OP_IADD, INUNIFORM_UNIT_OPTP_OP)},  // TODO
+    {"S_BCNT0_I32", OpcodeChar(OP_IADD, UNIFORM_UNIT_OP)},  // TODO
     {"S_BCNT1_I32", OpcodeChar(OP_IADD, UNIFORM_UNIT_OP)},  // TODO
     {"S_BITSET0", OpcodeChar(OP_IADD, UNIFORM_UNIT_OP)},  // TODO
     {"S_BITSET1", OpcodeChar(OP_IADD, UNIFORM_UNIT_OP)},  // TODO
@@ -138,7 +138,8 @@ static const std::unordered_map<std::string, OpcodeChar> GCN3_OpcodeMap = {
     {"S_SLEEP", OpcodeChar(OP_NANOSLEEP, SPECIALIZED_UNIT_1_OP)},
     {"S_TRAP", OpcodeChar(OP_CALL, SPECIALIZED_UNIT_1_OP)},
     {"S_TTRACEDATA", OpcodeChar(OP_NOP, UNIFORM_UNIT_OP)},  // TODO
-    {"S_WAITCNT", OpcodeChar(OP_NOP, UNIFORM_UNIT_OP)},  // TODO
+    // TODO S_WAITCNT will wait for the previous outstanding memory operation to complete
+    {"S_WAITCNT", OpcodeChar(OP_MEMBAR, MEMORY_BARRIER_OP)}, 
 
     // AMD GCN3 SMEM instructions
     {"S_ATC_PROBE", OpcodeChar(OP_LDS, UNIFORM_UNIT_LOAD_OP)},  // TODO
